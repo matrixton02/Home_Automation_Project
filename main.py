@@ -5,15 +5,13 @@ import time
 import google.generativeai as genai
 import creds
 import send
-
+import todo
 engine=pyttsx3.init()
 voices=engine.getProperty('voices')
 engine.setProperty('voice',voices[0].id)
 
 genai.configure(api_key=creds.API_KEY)
 model=genai.GenerativeModel("gemini-pro")
-
-arduino=serial.Serial(port='COM4',buradate=115200,timeout=0.1)
 
 def getresponse(query):
     response=model.generate_content(query)
@@ -44,52 +42,134 @@ def speak(audio):
 
 def takecommand():
     recognizer=sr.Recognizer()
-    recognized=False
-    n=0
-
-    while(n<3 and not recognized):
+    while True:
         try:
             with sr.Microphone() as mic:
                 audio=recognizer.listen(mic)
                 text=recognizer.recognize_google(audio,language="en-in")
                 text=text.lower()
-                if(len(text)>0):
-                    recognized=True
-                print("Recognized",text)
+                print("User:",text)
+                return text
         except Exception as e:
-            n+=1
             print("Assistant:Say that again please")
             continue
         return text
     
-    if(not recognized):
-        print("Assistant:Sorry i was unable to catch what u said can u please type it")
-        speak("Sorry i was unable to catch what u said can u please type it")
-        time.sleep(2)
-        text=input("User:")
-    return text
+def wakeup():
+    recognizer=sr.Recognizer()
+    while True:
+        try:
+            print("..")
+            with sr.Microphone() as mic:
+                audio=recognizer.listen(mic,timeout=5,phrase_time_limit=7)
+                text=recognizer.recognize_google(audio,language="en-in")
+                text=text.lower()
+                return text
+        except Exception as e:
+            continue
+        return text
 
-def automate(x):
-    arduino.write(bytes(x,'utf-8'))
-    time.sleep(0.05)
-
-def intialize():
+def initialize():
     while True:
         text=takecommand()
-
-        if("turn on" in text and "light" in text):
+        if("turn on" in text and "all" in text):
             send.control(1)
+            send.control(3)
+            send.control(5)
+        elif("turn off" in text and "all" in text):
+            send.control(2)
+            send.control(4)
+            send.control(6)
+        elif("turn on" in text and "light" in text):
+            if("one" not in text and "two" not in text and "three" not in text and "1" not in text and "2" not in text and "3" not in text):
+                print("Which light you want to turn on")
+                speak("Which light you want to turn on")
+                num=takecommand()
+            else:
+                if("one" in text or "1" in text):
+                    num="one"
+                elif("two" in text or "2" in text):
+                    num="two"
+                else:
+                    num="three"
+            print("num",num)
+            if(num=="one" or num=="1"):
+                send.control(1)
+            elif(num=="two" or num=="2"):
+                send.control(3)
+            elif(num=="three" or num=="3"):
+                send.control(5)
+
         elif("turn off" in text and "light" in text):
-            send.control(0)
-        elif("exit" in text):
+            if("one" not in text and "two" not in text and "three" not in text and "1" not in text and "2" not in text and "3" not in text):
+                print("Which light you want to turn off")
+                speak("Which light you want to turn off")
+                num=takecommand()
+            else:
+                if("one" in text or "1" in text):
+                    num="one"
+                elif("two" in text or "2" in text):
+                    num="two"
+                else:
+                    num="three"
+            
+            if(num=="one"):
+                send.control(2)
+            elif(num=="two"):
+                send.control(4)
+            elif(num=="three"):
+                send.control(6)
+        elif("add" in text and ("to the list" in text or "work" in text)):
+                work=text
+                p=work.find("add")
+                q=work.find("to the list")
+                work=work[p+3:q]
+                print(work)
+                speak("Assistant:Work added")
+                todo.add(work)
+        elif("to do list" in text or "update to do" in text or "update work" in text or ("update" in text and "list" in text and "work" in text)):
+            print("Assistant:what would you like to update in the list")
+            speak("what would you like to updqate in the list")
+            work=takecommand()
+            if("add" in work):
+                p=work.find("add")
+                work=work[p+3:]
+                print(work)
+                speak("Assistant:Work added")
+                todo.add(work)
+            elif("update work status" in work):
+                print("which work status you want to update")
+                speak("which work status you want to update")
+                work=takecommand()
+                todo.updatework(work)
+            elif("delete work" in work):
+                print("which work you want to delete")
+                speak("which work you want to delete")
+                work=takecommand()
+                todo.delete(work)
+        elif("show work list" in text or 'show to do list' in text or ('show' in text and ("work" in text or "work list" in text))):
+            res=todo.show()
+            print()
+            print("Workl\tstatus")
+            for i in res:
+                print(i[0],"\t",i[1])
+
+        elif("exit" in text or "sleep" in text):
             return
+        
+        elif("terminate" in text):
+            exit(0)
         else:
             text=getresponse(text)
             print("Assistant: ",text)
             speak(text)
 
 if __name__=="__main__":
+    initialize()
     while True:
-        intialize()
-        time.sleep(5)
-        continue
+        text=wakeup()
+        if "wake up" in text:
+            initialize()
+        else:
+            time.sleep(5)
+            continue
