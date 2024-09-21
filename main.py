@@ -55,9 +55,11 @@ def speak(audio):
 
 def takecommand():
     recognizer=sr.Recognizer()
+    print("Assistant:Listening....")
     while True:
         try:
             with sr.Microphone() as mic:
+                print("Assistant:Recognizing....")
                 audio=recognizer.listen(mic,timeout=3,phrase_time_limit=5)
                 text=recognizer.recognize_google(audio,language="en-in")
                 text=text.lower()
