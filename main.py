@@ -22,7 +22,7 @@ def getresponse(query):
         text=l[i]
         s=""
         for j in text:
-            if(j in ["*","(",")",":","."]):
+            if(j in ["*","(",")",":",".","'",'"']):
                 s+=""
             else:
                 s+=j
@@ -45,7 +45,7 @@ def takecommand():
     while True:
         try:
             with sr.Microphone() as mic:
-                audio=recognizer.listen(mic,timeout=5,phrase_time_limit=7)
+                audio=recognizer.listen(mic,timeout=3,phrase_time_limit=5)
                 text=recognizer.recognize_google(audio,language="en-in")
                 text=text.lower()
                 print("User:",text)
