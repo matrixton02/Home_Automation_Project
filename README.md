@@ -31,7 +31,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#flowchart">Flowchart</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -47,9 +47,8 @@ This project aspires to develop an elegant and intelligent home automation syste
 
 ## Built With
 
-[![Python](https://example.com/image.png](https://www.google.com/url?sa=i&url=https%3A%2F%2Fjunilearning.com%2Fblog%2Fguide%2Fwhat-is-python-101-for-students%2F&psig=AOvVaw2ZbpNSghHiuGWIF2FCCzTQ&ust=1727001773296000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJiK8Ivt04gDFQAAAAAdAAAAABAE)](https://i0.wp.com/junilearning.com/wp-content/uploads/2020/06/python-programming-language.webp?fit=1920%2C1920&ssl=1))](https://www.python.org/)
-[![C++ for Arduino Uno](https://brandslogos.com/wp-content/uploads/images/large/arduino-logo-1.png)]((https://docs.arduino.cc/arduino-cloud/guides/arduino-c/))
-
+* [Python](https://www.python.org/)
+* [C++ for Arduino Uno](https://docs.arduino.cc/arduino-cloud/guides/arduino-c/)
 
 <p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
@@ -75,20 +74,31 @@ Listing all the softwares that you will need and how to install them-
 ```pip install pyaudio```
 
 ## Installation
-
+* Get a free Gemini api key.
+* Download all the python packages required.
+* Create a database in MySQL called todo.
+* ``Create Database todo``.
+* Create a table in that database called data.
+* Data should contain three columns work varchar(255) dateow date status varchar(10).
+* ``Create table data( work varchar(255),dateow date,status varchar(10))``.
+* Create a clone of our repo.
+* Create a file creds.py and add your api key and MySQL password.
+* Connect three leds to a breadboard and connect the positive pin with a resistor and connect them to the pin 12 11 and 10 respectively and connect the small pins ot the ground of the board.
+* Copy the code written in arduino.cpp in ide and upload it on the Arduino board.
+  
 <p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 <!--USAGE-->
 ## Usage
-* <u>Automation Rules</u>: Define custom automation rules, such as turning off lights through speech recognition,temperature regulations.
-* <u>Notifications</u>: Receive real-time alerts for certain events,fire detection(future improvements),real-time temperature(future improvements).
-* <u>Voice Commands</u>: Integrate like voice assistants like Alexa or Google Assistant to manage devices hands-free to play songs,making todo lists(custom routines).
+* __Automation Rules__ : Define custom automation rules, such as ``turning off lights`` through speech recognition,``temperature regulations``.
+* __Notifications__ : Receive real-time alerts for certain events,``fire detection``(future improvements),``real-time temperature``(future improvements).
+* __Voice Commands__ : Integrate like voice assistants like Alexa or Google Assistant to manage devices hands-free to ``play songs``,``making todo lists``(custom routines).
 
 <p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 <!--ROADMAP-->
-## Roadmap
-<img src=(https://drive.google.com/file/d/10aFdJ51uzSJJBHojnTKbav8pzh_7VKjn/view) alt="Logo" width="80" height="80">
+## Flowchart
+(https://excalidraw.com/#json=yBxERqT-IVkRqvRrnLUZH,2Fh9fl1MQLU4Z_GM31eNRw)
 <p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 <!--CONTRIBUTING-->
@@ -117,6 +127,7 @@ Project Link:https://github.com/matrixton02/Home_Automation_Project
 <!--ACKNOWLEDGMENTS-->
 # Acknowledgments
 Thanks and regards.
+From - SYNTAXTERMINATOR
 <p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 
