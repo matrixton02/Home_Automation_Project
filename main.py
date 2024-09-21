@@ -45,7 +45,7 @@ def takecommand():
     while True:
         try:
             with sr.Microphone() as mic:
-                audio=recognizer.listen(mic)
+                audio=recognizer.listen(mic,timeout=5,phrase_time_limit=7)
                 text=recognizer.recognize_google(audio,language="en-in")
                 text=text.lower()
                 print("User:",text)
@@ -61,7 +61,7 @@ def wakeup():
         try:
             print("..")
             with sr.Microphone() as mic:
-                audio=recognizer.listen(mic,timeout=5,phrase_time_limit=7)
+                audio=recognizer.listen(mic)
                 text=recognizer.recognize_google(audio,language="en-in")
                 text=text.lower()
                 return text
