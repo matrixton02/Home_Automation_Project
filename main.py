@@ -6,12 +6,25 @@ import google.generativeai as genai
 import creds
 import send
 import todo
+import datetime
+
 engine=pyttsx3.init()
 voices=engine.getProperty('voices')
 engine.setProperty('voice',voices[0].id)
 
 genai.configure(api_key=creds.API_KEY)
 model=genai.GenerativeModel("gemini-pro")
+
+def wish():
+    hour=int(datetime.datetime.now().hour)
+    if hour>=0 and hour<12:
+        speak("Good Morning")
+    elif hour>=12 and hour<=18:
+        speak("Good afternoon")
+    else:
+        speak("Good evening")
+    time = datetime.datetime.now().strftime('%I:%M %p')
+    speak("Now the time is "+time)
 
 def getresponse(query):
     response=model.generate_content(query)
@@ -165,10 +178,12 @@ def initialize():
             speak(text)
 
 if __name__=="__main__":
+    wish()
     initialize()
     while True:
         text=wakeup()
         if "wake up" in text:
+            wish()
             initialize()
         else:
             time.sleep(5)
